@@ -1,0 +1,23 @@
+# name: test/sql/duckonnx.test
+# description: test duckonnx extension
+# group: [duckonnx]
+
+# Before we load the extension, this will fail
+statement error
+SELECT duckonnx('Sam');
+----
+Catalog Error: Scalar Function with name duckonnx does not exist!
+
+# Require statement will ensure this test is run with this extension loaded
+require duckonnx
+
+# Confirm the extension works
+query I
+SELECT duckonnx('Sam');
+----
+Duckonnx Sam 🐥
+
+query I
+SELECT duckonnx_openssl_version('Michael') ILIKE 'Duckonnx Michael, my linked OpenSSL version is OpenSSL%';
+----
+true
